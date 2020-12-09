@@ -2,4 +2,8 @@
 
 @section('main-menu')
     @include('default.main-menu')
-@show
+@endsection
+
+@section('dynamics-pages')
+    @include('default.dynamics-pages')
+@endsection
