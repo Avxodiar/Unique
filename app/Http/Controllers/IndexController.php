@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -27,19 +28,8 @@ class IndexController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function contact(Request $request)
+    public function contact(ContactRequest $request)
     {
-        $rules = [
-            'name' => 'required|max:255',
-            'email' => 'required|email',
-            'message' => 'required',
-        ];
-        $messages = [
-            'require' => "Поле :attribute обязательно к заполнению",
-            'email' => "Поле :attribute должно содержать корректный email-адрес",
-        ];
-        $this->validate($request, $rules, $messages);
-
         $data = $request->all();
 
         try {

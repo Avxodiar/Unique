@@ -2,24 +2,22 @@
     <form action="{{ route('home') }}#contact" method="post">
         {{ csrf_field() }}
 
+        {{-- Сообщение об успешной отправке --}}
         @if (session('mail-status'))
             <div class=" alert alert-success">
                 {{ session('mail-status') }}
             </div>
         @endif
 
-        @if(count($errors))
+        {{-- Сообщение об ошибке отправления --}}
+        @error('mail-status')
             <div class="input-text alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{$error}}</li>
-                    @endforeach
-                </ul>
+                {{$errors->first('mail-status')}}
             </div>
-        @endif
+        @enderror
 
         <label for="contact-name">Ваше имя:</label>
-        @error('name'))
+        @error('name')
             <p class="contact-field-error">
                 {{$errors->first('name')}}
             </p>
@@ -35,12 +33,12 @@
         <input name="email" id="contact-email" class="input-text" type="text"  value="{{ old('email') }}" placeholder="введите ваш email" required>
 
         <label for="contact-message">Текст сообщения</label>
-        @error('message'))
+        @error('message')
             <p class="contact-field-error">
                 {{$errors->first('message')}}
             </p>
         @enderror
-        <textarea name="message" id="contact-message" class="input-text text-area" cols="0" rows="0" >{{ old('message') }}</textarea>
+        <textarea name="message" id="contact-message" class="input-text text-area" cols="0" rows="0" required>{{ old('message') }}</textarea>
 
         <input class="input-btn" type="submit" value="Отправить">
     </form>
