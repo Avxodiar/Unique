@@ -26,7 +26,7 @@
                         <h5>All</h5>
                     </a>
                 </li>
-                @foreach($tags as $tag => $tagName)
+                @foreach($portfolioTags as $tag => $tagName)
                 <li>
                     <a class="" href="#" data-filter=".{{ $tag }}">
                         <h5>{{ $tagName }}</h5>

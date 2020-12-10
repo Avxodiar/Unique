@@ -37,7 +37,9 @@
                                     <div class=" delay-01s animated fadeInDown wow animated">
                                         {!! $page['content'] !!}
                                     </div>
-                                    <div class="work_bottom"> <span>Want to know more..</span> <a href="{{ route('page', ['alias' => $page['alias']]) }}" class="contact_btn">Contact Us</a> </div>
+                                    <div class="work_bottom">
+                                        <a href="{{ route('page', ['alias' => $page['alias']]) }}" class="contact_btn">Read more</a>
+                                    </div>
                                 </div>
 
                             </div>

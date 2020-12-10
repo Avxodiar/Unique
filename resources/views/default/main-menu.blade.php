@@ -2,7 +2,7 @@
     @if( !empty($menu) && is_array($menu))
         @foreach($menu as $alias => $title)
             <li @if($alias === 'home') class="active" @endif>
-                <a href="#{{ $alias }}" class="scroll-link">
+                <a href="/#{{ $alias }}" class="scroll-link">
                     {{ $title }}
                 </a>
             </li>
