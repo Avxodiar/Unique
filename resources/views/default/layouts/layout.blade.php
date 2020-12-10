@@ -28,9 +28,7 @@
 </header>
 <!--Header_section-->
 
-@section('content')
-    @include('default.layouts.content')
-@show
+@yield('content')
 
 <!--Footer-->
 <footer class="footer_wrapper" id="contact">

@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav" id="mainNav">
-    @if( !empty($menuList) && is_array($menuList))
-        @foreach($menuList as $alias => $title)
+    @if( !empty($menu) && is_array($menu))
+        @foreach($menu as $alias => $title)
             <li @if($alias === 'home') class="active" @endif>
                 <a href="#{{ $alias }}" class="scroll-link">
                     {{ $title }}
