@@ -16,10 +16,8 @@ class PageController extends Controller
         $res = Page::where('alias', $alias)->firstOrFail();
         $page = Pages::toArray([$res], Pages::MODEL_FIELDS['Page']);
 
-        $pages = Pages::getModelData('Page');
-
         return view('default.page', [
-            'menu' => Pages::menu($pages),
+            'menu' => Pages::menu(),
             'page' => current($page)
         ]);
     }

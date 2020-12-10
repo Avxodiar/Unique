@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use Illuminate\Support\Facades\Cache;
+
 class Pages
 {
     // статические страницы отображаемые всегда
@@ -24,13 +26,17 @@ class Pages
     // кол-во отображаемых сотрудников
     private const PEOPLES_SHOW_COUNT = 3;
 
+    // время хранения кэша данных для моделей
+    private const MODEL_DATA_CACHE_TIME = 3600;
+
     /**
      * Формирования списка меню из списков динамичных и статичных страниц
-     * @param array $pages
      * @return array
      */
-    public static function menu(array $pages): array
+    public static function menu(): array
     {
+        $pages = self::getModelData('Page');
+
         // список меню из динамичных страниц
         $pageMenu = [];
         foreach ($pages as $page) {
@@ -51,6 +57,12 @@ class Pages
             return [];
         }
 
+        $cacheKey = 'section-' . $section;
+
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        }
+
         $model = 'App\Models\\' . $section;
         $fields = self::MODEL_FIELDS[$section];
 
@@ -67,7 +79,11 @@ class Pages
                 return [];
         }
 
-        return self::toArray($res, $fields);
+        $result = self::toArray($res, $fields);
+
+        Cache::put($cacheKey, $result, self::MODEL_DATA_CACHE_TIME);
+
+        return $result;
     }
 
     /**

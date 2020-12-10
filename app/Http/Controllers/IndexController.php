@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Support\Pages;
 use App\Http\Requests\ContactRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -40,17 +41,13 @@ class IndexController extends Controller
      */
     public function show()
     {
-        $pages = Pages::getModelData('Page');
-
-        $portfolios = $this->getPortfolios();
-
         return view('default.index', [
-            'menu' => Pages::menu($pages),
-            'pages' => $pages,
-            'portfolios' => $portfolios,
-            'portfolioTags' => $this->getPortfolioFilter($portfolios),
-            'services' => Pages::getModelData('Service'),
+            'menu' => Pages::menu(),
+            'pages' => Pages::getModelData('Page'),
             'peoples' => Pages::getModelData('People'),
+            'services' => Pages::getModelData('Service'),
+            'portfolios' => $this->getPortfolios(),
+            'portfolioTags' => $this->getPortfolioFilter(),
         ]);
     }
 
@@ -82,23 +79,19 @@ class IndexController extends Controller
 
     /**
      * Список уникальных фильтров используемых во всех портолио
-     * @param array $portfolios
      * @return array
      */
-    private function getPortfolioFilter(array $portfolios): array
+    private function getPortfolioFilter(): array
     {
+        $portfolios = $this->getPortfolios();
+
         $lists = [];
         foreach ($portfolios as $portfolio) {
             $lists[] = $portfolio['filter'];
         }
 
-        // преобразовываем в одномерный
-        $filters = array_unique(
-            array_merge(...array_values($lists))
-        );
+        $array = Arr::collapse($lists);
 
-        asort($filters);
-
-        return $filters;
+        return Arr::sort($array);
     }
 }
