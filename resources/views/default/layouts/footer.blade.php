@@ -1,7 +1,9 @@
 <div class="container">
     <section class="page_section contact" id="contact">
         <div class="contact_section">
-            <h2>Contact Us</h2>
+            <h2>
+                {{ (!empty($menu['contact'])) ? $menu['contact'] : 'Contact Us' }}
+            </h2>
             <div class="row">
                 <div class="col-lg-4">
 
@@ -41,16 +43,14 @@
                 </ul>
             </div>
             <div class="col-lg-8 wow fadeInLeft delay-06s">
-                <div class="form">
-                    <input class="input-text" type="text" name="" value="Your Name *" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;">
-                    <input class="input-text" type="text" name="" value="Your E-mail *" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;">
-                    <textarea class="input-text text-area" cols="0" rows="0" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;">Your Message *</textarea>
-                    <input class="input-btn" type="submit" value="send message">
-                </div>
+                @yield('contact-form')
             </div>
         </div>
     </section>
 </div>
 <div class="container">
-    <div class="footer_bottom"><span>Copyright © 2014, Template by WebThemez.com </span> </div>
+    <div class="footer_bottom">
+        <p>© 2014, Template by WebThemez.com</p>
+        <p>© 2020, Developed by <a href="#">avxodiar@gmail</a></p>
+    </div>
 </div>

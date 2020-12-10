@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class IndexController extends Controller
 {
     // статические страницы отображаемые всегда
-    const STATIC_PAGES = [
+    private const STATIC_PAGES = [
         'services' => 'Услуги',
         'portfolio' => 'Портфолио',
         'clients' => 'Клиенты',
@@ -17,11 +19,42 @@ class IndexController extends Controller
     ];
 
     // кол-во отображаемых сотрудников
-    const PEOPLES_SHOW_COUNT = 3;
+    private const PEOPLES_SHOW_COUNT = 3;
 
+    /**
+     * Отправка сообщений из формы Контакты
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function contact(Request $request)
     {
-        return __METHOD__;
+        $rules = [
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'message' => 'required',
+        ];
+        $messages = [
+            'require' => "Поле :attribute обязательно к заполнению",
+            'email' => "Поле :attribute должно содержать корректный email-адрес",
+        ];
+        $this->validate($request, $rules, $messages);
+
+        $data = $request->all();
+
+        try {
+            Mail::send('email.contact', ['data' => $data], function ($message) use ($data) {
+                $message->from($data['email'], $data['name'])
+                    ->to(env('MAIL_MANAGER'), env('MAIL_MANAGER_NAME'))
+                    ->subject('Question');
+            });
+        } catch (\Exception $e) {
+            return redirect(URL::previous() . "#contact")
+                ->withErrors(['mail-status' => $e->getMessage()]);
+        }
+
+        return redirect(URL::previous() . "#contact")
+            ->with('mail-status', 'Email is send');
     }
 
     /**

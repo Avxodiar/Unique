@@ -1,7 +1,9 @@
 <section id="team" class="page_section team"><!--main-section team-start-->
     <div class="container">
     @if(!empty($peoples) && is_array($peoples))
-        <h2>Team</h2>
+        <h2>
+            {{ (!empty($menu['team'])) ? $menu['team'] : 'Team' }}
+        </h2>
         <h6>Прототип нового сервиса - это как шопот бессменных лидеров</h6>
         <div class="team_section clearfix">
         @foreach($peoples as $key => $people)

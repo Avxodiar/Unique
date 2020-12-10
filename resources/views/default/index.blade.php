@@ -32,3 +32,7 @@
     @show
     <!--/Team-->
 @endsection
+
+@section('contact-form')
+    @include('default.contact-form')
+@endsection

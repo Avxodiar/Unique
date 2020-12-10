@@ -24,7 +24,7 @@ Route::middleware('web')->group(function () {
     Route::get('/',  [IndexController::class, 'show'])
         ->name('home');
 
-    // Отправка сообщений из формы Contact-us
+    // Отправка сообщений из формы Контакты
     Route::post('/', [IndexController::class, 'contact']);
 
     // дополнительные страницы для секций с кнопками "Читать дальше"
