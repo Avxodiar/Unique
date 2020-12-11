@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\TeamController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,99 +59,77 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // Основная страница админки /admin
     Route::get('/', function() {
-        return view('admin.index');
+         return view('admin.index')
+            ->with('title', 'Панель управления')
+            ->with('active', AdminController::ACTION_ACTIVE);
     })->name('admin');
 
     // Изменение дополнительных страниц
     Route::prefix('pages')->group(function () {
-
-        // Вывод имеющихся страниц /admin/pages
-        Route::get('/', function () {
-           return 'PageController@list';
-        })->name('pages');
+        // Вывод списка страниц /admin/pages
+        Route::get('/', [PageController::class, 'showPages'])->name('page-list');
 
         // Добавление страницы /admin/pages/add
-        Route::get('/add', function () {
-            return 'PageController@addForm';
-        })->name('add-page');
-
-        Route::post('/add', function () {
-            return 'PageController@create';
-        });
+        Route::get('/add', [PageController::class, 'showAddForm'])->name('add-page');
+        Route::post('/add', [PageController::class, 'create']);
 
         // Форма редактирования содержимого страницы /admin/pages/edit/{id}
-        Route::get('/edit/{id}', function () {
-            return 'PageController@editForm';
-        })->name('edit-page');
+        Route::get('/edit/{id}', [PageController::class, 'showEditForm'])->name('edit-page');
+        Route::post('/edit/{id}', [PageController::class, 'update']);
 
-        Route::post('/edit/{id}', function () {
-            return 'PageController@update';
-        });
-
-        Route::delete('/edit/{id}', function () {
-            return 'PageController@delete';
-        });
+        // Удаление страницы
+        Route::delete('/delete/{id}', [PageController::class, 'delete'])->name('delete-page');
     });
 
     // Изменение портфолио
     Route::prefix('portfolio')->group(function () {
+        // Вывод списка портфолио /admin/portfolio
+        Route::get('/', [PortfolioController::class, 'showPages'])->name('portfolio-list');
 
-        // Вывод имеющихся страниц /admin/portfolio
-        Route::get('/', function () {
-            return 'PortfolioController@show';
-        })->name('portfolio');
+        // Добавление портфолио /admin/portfolio/add
+        Route::get('/add', [PortfolioController::class, 'showAddForm'])->name('add-portfolio');
+        Route::post('/add', [PortfolioController::class, 'create']);
 
-        // Добавление страницы /admin/portfolio/add
-        Route::get('/add', function () {
-            return 'PortfolioController@addForm';
-        })->name('add-portfolio');
+        // Форма редактирования портфолио /admin/portfolio/edit/{id}
+        Route::get('/edit/{id}', [PortfolioController::class, 'showEditForm'])->name('edit-portfolio');
+        Route::post('/edit/{id}', [PortfolioController::class, 'update']);
 
-        Route::post('/add', function () {
-            return 'PortfolioController@create';
-        });
-
-        // Форма редактирования содержимого страницы /admin/portfolio/edit/{id}
-        Route::get('/edit/{id}', function () {
-            return 'PortfolioController@editForm';
-        })->name('edit-portfolio');
-
-        Route::post('/edit/{id}', function () {
-            return 'PortfolioController@update';
-        });
-
-        Route::delete('/edit/{id}', function () {
-            return 'PortfolioController@delete';
-        });
+        // Удаление работы из портфолио
+        Route::delete('/delete/{id}', [PortfolioController::class, 'delete'])->name('delete-portfolio');
     });
 
-    // Изменение сервисов
+    // Изменение услуг
     Route::prefix('services')->group(function () {
 
+        // Вывод списка услуг /admin/services
+        Route::get('/', [ServiceController::class, 'showPages'])->name('service-list');
+
+        // Добавление услуги /admin/services/add
+        Route::get('/add', [ServiceController::class, 'showAddForm'])->name('add-service');
+        Route::post('/add', [ServiceController::class, 'create']);
+
+        // Форма редактирования услуги /admin/services/edit/{id}
+        Route::get('/edit/{id}', [ServiceController::class, 'showEditForm'])->name('edit-service');
+        Route::post('/edit/{id}', [ServiceController::class, 'update']);
+
+        // Удаление услуги
+        Route::delete('/delete/{id}', [ServiceController::class, 'delete'])->name('delete-service');
+    });
+
+    // Изменение команды
+    Route::prefix('team')->group(function () {
         // Вывод имеющихся страниц /admin/services
-        Route::get('/', function () {
-            return 'ServiceController@show';
-        })->name('services');
+        Route::get('/', [TeamController::class, 'showPages'])->name('team-list');
 
-        // Добавление страницы /admin/services/add
-        Route::get('/add', function () {
-            return 'ServiceController@addForm';
-        })->name('add-service');
+        // Добавление работника /admin/services/add
+        Route::get('/add', [TeamController::class, 'showAddForm'])->name('add-team');
+        Route::post('/add', [TeamController::class, 'create']);
 
-        Route::post('/add', function () {
-            return 'ServiceController@create';
-        });
+        // Форма редактирования информации о работнике /admin/services/edit/{id}
+        Route::get('/edit/{id}', [TeamController::class, 'showEditForm'])->name('edit-team');
+        Route::post('/edit/{id}', [TeamController::class, 'update']);
 
-        // Форма редактирования содержимого страницы /admin/services/edit/{id}
-        Route::get('/edit/{id}', function () {
-            return 'ServiceController@editForm';
-        })->name('edit-service');
-
-        Route::post('/edit/{id}', function () {
-            return 'ServiceController@update';
-        });
-
-        Route::delete('/edit/{id}', function () {
-            return 'ServiceController@delete';
-        });
+        // Удаление работника
+        Route::delete('/delete/{id}', [TeamController::class, 'delete'])->name('delete-team');
     });
 });

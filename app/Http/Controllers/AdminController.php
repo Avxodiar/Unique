@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    public const ACTION_ACTIVE = [
+        'pages' => '',
+        'services' => '',
+        'portfolio' => '',
+        'team' => ''
+    ];
+
     /**
      * Страница авторизации
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -19,7 +26,8 @@ class AdminController extends Controller
             return redirect()->route('admin');
         }
 
-        return view('admin.login');
+        return view('admin.login')
+            ->with('title', 'Авторизация');
     }
 
     /**
@@ -32,7 +40,8 @@ class AdminController extends Controller
             return redirect()->route('admin');
         }
 
-        return view('admin.registration');
+        return view('admin.registration')
+            ->with('title', 'Регистрация');
     }
 
     /**

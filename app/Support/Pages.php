@@ -65,6 +65,7 @@ class Pages
 
         $model = 'App\Models\\' . $section;
         $fields = self::MODEL_FIELDS[$section];
+        array_unshift($fields, "id");
 
         switch ($section) {
             case 'Page':

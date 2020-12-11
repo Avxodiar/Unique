@@ -12,7 +12,7 @@
 <div class="d-flex justify-content-center my-5">
     <div class="w-50 text-center align-self-center">
 
-        <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
+        <h1 class="h3 mb-3 font-weight-normal">{{ $title }}</h1>
 
         <form class="form-signin" action="{{ route('login') }}" method="post">
 
