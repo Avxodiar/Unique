@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PageController;
 /*
@@ -21,7 +22,7 @@ use App\Http\Controllers\PageController;
 Route::middleware('web')->group(function () {
 
     // Отображение основного контента
-    Route::get('/',  [IndexController::class, 'show'])
+    Route::get('/', [IndexController::class, 'show'])
         ->name('home');
 
     // Отправка сообщений из формы Контакты
@@ -33,14 +34,29 @@ Route::middleware('web')->group(function () {
 });
 
 /**
+ * Аутентификация пользователя
+ */
+Route::middleware('web')->group(function () {
+
+    Route::get('registration', [AdminController::class, 'showRegistration'])->name('registration');
+    Route::post('registration', [ AdminController::class, 'registration']);
+
+    Route::get('login', [AdminController::class, 'showLogin'])->name('login');
+    Route::post('login', [AdminController::class, 'login']);
+
+    Route::match(['get','post'],'logout', [AdminController::class, 'logout'])->name('logout');
+
+});
+
+/**
  * Администраторская часть
  */
 Route::prefix('admin')->middleware('auth')->group(function () {
 
     // Основная страница админки /admin
     Route::get('/', function() {
-
-    });
+        return view('admin.index');
+    })->name('admin');
 
     // Изменение дополнительных страниц
     Route::prefix('pages')->group(function () {
