@@ -54,6 +54,7 @@ class IndexController extends Controller
     /**
      * Получение списка портфолио
      * фильтры к портфолио в БД хранятся в виде строки через запятую
+     * фильтры приводятся к kebab-case виду при помощи Str::slug()
      * @return array
      */
     private function getPortfolios(): array
@@ -85,10 +86,7 @@ class IndexController extends Controller
     {
         $portfolios = $this->getPortfolios();
 
-        $lists = [];
-        foreach ($portfolios as $portfolio) {
-            $lists[] = $portfolio['filter'];
-        }
+        $lists = array_column($portfolios, 'filter');
 
         $array = Arr::collapse($lists);
 

@@ -8,7 +8,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav">
             <li class="nav-item active">
                 <a class="nav-link font-weight-bold button-red" href="{{ route('home') }}">Home</a>
             </li>
@@ -17,11 +17,11 @@
             </li>
         </ul>
 
-        <nav class="m0">
-            <h1 class="h4 font-weight-normal">{{ $title }}</h1>
+        <nav class="m-auto">
+            <h1 class="h4 font-weight-normal">Панель управления</h1>
         </nav>
 
-        <nav class="my-2 my-md-0 mr-md-3 ml-auto">
+        <nav class="my-md-0">
             @yield('nav-button')
         </nav>
     </div>

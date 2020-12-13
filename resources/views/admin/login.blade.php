@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 
 @section('nav-button')
-    <a class="btn btn-outline-primary" href="{{ route('registration') }}">Register</a>
+    <a class="btn btn-outline-primary min-w125" href="{{ route('registration') }}">Регистрация</a>
 @endsection
 
 @section('header')

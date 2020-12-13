@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    // список активных/неактивных секций в панели управления
     public const ACTION_ACTIVE = [
-        'pages' => '',
-        'services' => '',
+        'page' => '',
+        'service' => '',
         'portfolio' => '',
-        'team' => ''
+        'people' => ''
     ];
 
     /**

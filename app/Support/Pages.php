@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Pages
@@ -57,7 +58,7 @@ class Pages
             return [];
         }
 
-        $cacheKey = 'section-' . $section;
+        $cacheKey = self::getSectionKey($section);
 
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
@@ -89,27 +90,55 @@ class Pages
 
     /**
      * Преобразование коллекций в ассоц.массив
-     * @param       $res    - коллекции Illuminate\Database\Eloquent\Collection
+     * @param mixed  $res   - коллекции Illuminate\Database\Eloquent\Collection
      * @param array $fields - список необходимых полей
      * @return array
      */
-    public static function toArray($res, array $fields): array
+    public static function toArray($res, array $fields = []): array
     {
         $list = [];
 
-        if (empty($res) || empty($fields)) {
+        if (empty($res)) {
             return $list;
         }
 
+        // если $res объект класса Мodel, то преобразовываем в коллекцию
+        $res = ($res instanceof Model) ? collect([$res]) : $res;
+
         foreach ($res as $row) {
-            $array = [];
-            foreach ($fields as $field) {
-                $array[$field] = $row->$field;
+
+            $attr = $row->toArray();
+
+            if (!empty($fields)) {
+                $attr = array_intersect_key($attr, array_flip($fields));
             }
 
-            $list[] = $array;
+            $list[] = $attr;
         }
 
         return $list;
+    }
+
+    /**
+     * Очистка кэша getModelData для указанной секции
+     * @param string $section
+     */
+    public static function forgetCache(string $section): void
+    {
+        $cacheKey = self::getSectionKey($section);
+
+        if (Cache::has($cacheKey)) {
+            Cache::forget($cacheKey);
+        }
+    }
+
+    /**
+     * Ключ кэширования getModelData для указанной секции
+     * @param string $section
+     * @return string
+     */
+    private static function getSectionKey(string $section): string
+    {
+        return  'getModelData_' . $section;
     }
 }

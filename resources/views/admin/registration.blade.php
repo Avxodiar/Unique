@@ -1,9 +1,7 @@
 @extends('admin.layouts.layout')
 
 @section('nav-button')
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="btn btn-outline-primary" href="{{ route('login') }}">Login</a>
-    </nav>
+    <a class="btn btn-outline-primary min-w125" href="{{ route('login') }}">Авторизация</a>
 @endsection
 
 @section('header')

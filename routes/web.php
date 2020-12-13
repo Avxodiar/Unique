@@ -60,31 +60,36 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Основная страница админки /admin
     Route::get('/', function() {
          return view('admin.index')
-            ->with('title', 'Панель управления')
-            ->with('active', AdminController::ACTION_ACTIVE);
+            ->with('sectionActive', AdminController::ACTION_ACTIVE);
     })->name('admin');
 
     // Изменение дополнительных страниц
     Route::prefix('pages')->group(function () {
         // Вывод списка страниц /admin/pages
-        Route::get('/', [PageController::class, 'showPages'])->name('page-list');
+        Route::get('/', [PageController::class, 'showIndex'])->name('page-list');
 
         // Добавление страницы /admin/pages/add
-        Route::get('/add', [PageController::class, 'showAddForm'])->name('add-page');
-        Route::post('/add', [PageController::class, 'create']);
+        Route::get('add', [PageController::class, 'showAddForm'])->name('add-page');
+        Route::post('add', [PageController::class, 'create']);
 
         // Форма редактирования содержимого страницы /admin/pages/edit/{id}
-        Route::get('/edit/{id}', [PageController::class, 'showEditForm'])->name('edit-page');
-        Route::post('/edit/{id}', [PageController::class, 'update']);
+        Route::get('edit/{id}', [PageController::class, 'showEditForm'])
+            ->where('id', '[0-9]+')
+            ->name('edit-page');
+
+        Route::post('edit/{id}', [PageController::class, 'update'])
+            ->where('id', '[0-9]+');
 
         // Удаление страницы
-        Route::delete('/delete/{id}', [PageController::class, 'delete'])->name('delete-page');
+        Route::delete('delete/{id}', [PageController::class, 'delete'])
+            ->where('id', '[0-9]+')
+            ->name('delete-page');
     });
 
     // Изменение портфолио
     Route::prefix('portfolio')->group(function () {
         // Вывод списка портфолио /admin/portfolio
-        Route::get('/', [PortfolioController::class, 'showPages'])->name('portfolio-list');
+        Route::get('/', [PortfolioController::class, 'showIndex'])->name('portfolio-list');
 
         // Добавление портфолио /admin/portfolio/add
         Route::get('/add', [PortfolioController::class, 'showAddForm'])->name('add-portfolio');
@@ -102,7 +107,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::prefix('services')->group(function () {
 
         // Вывод списка услуг /admin/services
-        Route::get('/', [ServiceController::class, 'showPages'])->name('service-list');
+        Route::get('/', [ServiceController::class, 'showIndex'])->name('service-list');
 
         // Добавление услуги /admin/services/add
         Route::get('/add', [ServiceController::class, 'showAddForm'])->name('add-service');
@@ -119,17 +124,17 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Изменение команды
     Route::prefix('team')->group(function () {
         // Вывод имеющихся страниц /admin/services
-        Route::get('/', [TeamController::class, 'showPages'])->name('team-list');
+        Route::get('/', [TeamController::class, 'showIndex'])->name('people-list');
 
         // Добавление работника /admin/services/add
-        Route::get('/add', [TeamController::class, 'showAddForm'])->name('add-team');
+        Route::get('/add', [TeamController::class, 'showAddForm'])->name('add-people');
         Route::post('/add', [TeamController::class, 'create']);
 
         // Форма редактирования информации о работнике /admin/services/edit/{id}
-        Route::get('/edit/{id}', [TeamController::class, 'showEditForm'])->name('edit-team');
+        Route::get('/edit/{id}', [TeamController::class, 'showEditForm'])->name('edit-people');
         Route::post('/edit/{id}', [TeamController::class, 'update']);
 
         // Удаление работника
-        Route::delete('/delete/{id}', [TeamController::class, 'delete'])->name('delete-team');
+        Route::delete('/delete/{id}', [TeamController::class, 'delete'])->name('delete-people');
     });
 });
