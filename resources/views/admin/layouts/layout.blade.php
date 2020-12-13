@@ -96,6 +96,7 @@
 <script src="{{ asset('assets/js/admin/jquery-3.5.1.slim.min.js') }}"></script>
 <script src="{{ asset('assets/js/admin/bootstrap.bundle.min.js') }}"></script>
 
+<script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
 
 <script>
     var deleteForm = '';
@@ -144,6 +145,13 @@
             deleteForm.submit();
         });
 
+        // подключение визуального редактора на страницах редактирования/добавления для textarea c id=editor
+        let editor = document.querySelector('#editor');
+        if (editor && typeof CKEDITOR !== "undefined") {
+            CKEDITOR.replace( 'editor', {
+                customConfig: '/assets/js/ckeditor_config.js'
+            } );
+        }
     });
 </script>
 
