@@ -2,31 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PageAddRequest;
+use App\Http\Requests\PageEditRequest;
 use App\Support\Pages;
 use App\Models\Page;
 use App\Support\SectionTrait;
-use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
     use SectionTrait;
 
-    private const SECTION_NAME = 'Page';
+    protected const SECTION_NAME = 'Page';
 
-    private const HAS_IMAGE = true;
-    private const IMAGE_FIELD_NAME = 'images';
+    protected const HAS_IMAGE = true;
+    protected const IMAGE_FIELD_NAME = 'images';
 
     private const INDEX_FIELDS = [
         'alias' => 'Псевдоним',
         'name' => 'Название',
     ];
-
-    private $fields;
-
-    public function __construct()
-    {
-        //$this->fields = Pages::MODEL_FIELDS['Page'];
-    }
 
     /**
      * Показ выбранной страницы в публичной части
@@ -44,6 +38,27 @@ class PageController extends Controller
             'menu' => Pages::menu(),
             'page' => current($page)
         ]);
+    }
+
+    /**
+     * Создание страницы
+     * @param PageAddRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create(PageAddRequest $request)
+    {
+        return $this->createElement($request);
+    }
+
+    /**
+     * Изменение страницы
+     * @param PageEditRequest $request
+     * @param                 $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(PageEditRequest $request, $id)
+    {
+        return $this->updateElement($request, $id);
     }
 
     /**

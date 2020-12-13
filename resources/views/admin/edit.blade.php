@@ -14,16 +14,6 @@
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 
-    @if (count($errors))
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -53,58 +43,49 @@
                         <div class="form-group">
                             <label for="inputName">Название</label>
                             <input type="text" class="form-control form-control-lg" id="inputName" name="name" placeholder="имя"  value="{{ old('name', $list['name']) }}" required>
+                            @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="inputAlias">Псевдоним</label>
                             <input type="text" id="inputAlias" name="alias" class="form-control form-control-lg" placeholder="псевдоним" value="{{ old('alias', $list['alias']) }}" required>
+                            @error('alias')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
-
                         <div class="form-group">
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radio-image" id="radio-text" value="text" checked>
-                                <label class="form-check-label" for="radio-text">
-                                    Текущее изображение
-                                </label>
-                            </div>
+                            <label>Загрузить изображение</label>
                             <div class="custom-file mb-3">
-                                <label class="visually-hidden" for="input-image">Текущее изображение</label>
-                                <input type="text" id="input-image" name="images" class="form-control form-control-lg" placeholder="Изображение" value="{{ old('images', $list['images']) }}" required>
-
-                                <div class="invalid-feedback">Example invalid custom file feedback</div>
+                                <input type="file" name="images" class="custom-file-input" id="input-file" value="{{ old('images', $list['images']) }}">
+                                <label class="custom-file-label form-control-lg" for="input-file">{{ old('images', $list['images']) }}</label>
+                                @error('images')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="radio-image" id="radio-file" value="file">
-                                <label class="form-check-label" for="radio-file">
-                                    Загрузить
-                                </label>
-                            </div>
-                            <div class="custom-file mb-3">
-                                <input type="file" name="images" class="custom-file-input" id="input-file" required disabled>
-                                <label class="custom-file-label form-control-lg" for="input-file">Choose file...</label>
-                                <div class="invalid-feedback">Example invalid custom file feedback</div>
-                            </div>
-
                         </div>
 
                     </div>
 
                     <div class="col">
-                        <label>Текущее изображение</label>
+                        <label>Текущее изображение:</label>
                         @if ($noImage)
                         <img src="{{ asset('assets/img/no_image.png') }}" alt="" class="img-thumbnail float-right">
                         @else
                         <img src="{{ asset('assets/img/' . $section . '/'. $list['images']) }}" alt="" class="img-thumbnail float-right min-w125">
                         @endif
+                        <p class="text-secondary text-right">{{ $list['images'] }}</p>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="editor">Текст</label>
                     <textarea id="editor" name="content" class="form-control form-control-lg" rows="10" required>{{ old('content', $list['content']) }}</textarea>
+                    @error('content')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="d-flex justify-content-between">

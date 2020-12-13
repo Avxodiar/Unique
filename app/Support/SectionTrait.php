@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Http\Controllers\AdminController;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
 trait SectionTrait
@@ -81,11 +82,11 @@ trait SectionTrait
 
     /**
      * Обновление записи
-     * @param Request $request
-     * @param         $id
+     * @param FormRequest $request
+     * @param             $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function updateElement(FormRequest $request, $id)
     {
         $element = $this->getElement($id);
 
@@ -99,18 +100,9 @@ trait SectionTrait
         $fields = $this->getFields();
         $data = $request->only($fields);
 
-        if (self::HAS_IMAGE) {
-            $imgField = self::IMAGE_FIELD_NAME;
-
-            // если выбрано поле radio-image то нужно загрузить файл
-            if (isset($request['radio-image']) && $request['radio-image'] === 'file') {
-                if ($this->uploadImage($request, $imgField)) {
-                    $upload = $request->file($imgField);
-                    $data[$imgField] = $upload->getClientOriginalName();
-                } else {
-                    return $this->redirectBackEror('Не указан загружаемый файл');
-                }
-            }
+        $file = $this->uploadImage($request);
+        if (!empty($file)) {
+            $data[self::IMAGE_FIELD_NAME] = $file;
         }
 
         $element->fill($data);
@@ -126,21 +118,19 @@ trait SectionTrait
 
     /**
      * Создание записи
-     *
-     * @param Request $request
+     * @param FormRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     * @todo Validation
-     *       'name' => 'required|max:255',
-     *       'alias' => 'required|unique:pages|max:255',
-     *       'text' => 'required',
-     *       'images' => 'required',
-     *
      */
-    public function create(Request $request)
+    public function createElement(FormRequest $request)
     {
         $element = 'App\Models\\' . self::SECTION_NAME;
 
         $data = $request->only($this->getFields());
+
+        $file = $this->uploadImage($request);
+        if (!empty($file)) {
+            $data[self::IMAGE_FIELD_NAME] = $file;
+        }
 
         $res = $element::create($data);
 
@@ -221,22 +211,28 @@ trait SectionTrait
 
     /**
      * Загрузка файла
-     * @param Request $request
-     * @param         $fieldName - имя поля загружаемого файла
-     * @return bool
+     * @param FormRequest $request
+     * @return string
      */
-    public function uploadImage(Request $request, $fieldName): bool
+    private function uploadImage(FormRequest $request): string
     {
-        $upload = $request->file($fieldName);
+        if (self::HAS_IMAGE && $request->hasFile(self::IMAGE_FIELD_NAME)) {
+            $upload = $request->file(self::IMAGE_FIELD_NAME);
 
-        if ($request->hasFile($fieldName) && $upload->isValid()) {
-            $targetDir = public_path() . '/assets/img/' . $this->getRouteSection();
-            $targetFile = $upload->getClientOriginalName();
-            $upload->move($targetDir, $targetFile);
+            if ($upload->isValid()) {
+                $targetDir = public_path() . '/assets/img/' . $this->getRouteSection();
+                $targetFile = $upload->getClientOriginalName();
+                // переименовываем файл если существует
+                if (file_exists($targetDir . $targetFile)) {
+                    $file = pathinfo($targetFile);
+                    $targetFile .= $file['filename'] . '_' . date('ymd_his') . $file['extension'];
+                }
+                $upload->move($targetDir, $targetFile);
 
-            return true;
+                return $targetFile;
+            }
         }
 
-        return false;
+        return '';
     }
 }
