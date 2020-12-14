@@ -10,6 +10,18 @@
 
 @section('content')
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+        @if (isset($section))
+            <li class="breadcrumb-item"><a href="/admin/">Admin</a></li>
+            <li class="breadcrumb-item active" aria-current="{{ $section }}">{{ $sectionName }}</li>
+        @else
+            <li class="breadcrumb-item active" aria-current="admin">Admin</li>
+        @endif
+        </ol>
+    </nav>
+
     <ul class="nav nav-tabs mr-auto">
         <li class="nav-item ">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Разделы:</a>

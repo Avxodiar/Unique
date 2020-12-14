@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    // список названий секций доступных для изменений
+    public const SECTION_NAME = [
+        'page' => 'Страницы',
+        'service' => 'Услуги',
+        'portfolio' => 'Портфолио',
+        'people' => 'Команда'
+    ];
     // список активных/неактивных секций в панели управления
     public const ACTION_ACTIVE = [
         'page' => '',

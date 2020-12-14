@@ -4,7 +4,6 @@ namespace App\Support;
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
 trait SectionTrait
 {
@@ -22,6 +21,7 @@ trait SectionTrait
 
         return view('admin.index', [
             'section' => $section,
+            'sectionName' => AdminController::SECTION_NAME[$section],
             'sectionActive' => $sectionActive,
             'fields' => self::INDEX_FIELDS,
             'list' => $this->getDataList(),
@@ -36,12 +36,15 @@ trait SectionTrait
     {
         // список данных по полям заполняем пустими значениями
         $list = array_fill_keys($this->getFields(), '');
-        $list['id'] = 0;
+        $list['id'] = '';
+
+        $section = $this->getRouteSection();
 
         return view('admin.edit', [
             'title' => 'Добавление элемента',
             'actionType' => 'add',
-            'section' => $this->getRouteSection(),
+            'section' => $section,
+            'sectionName' => AdminController::SECTION_NAME[$section],
             'list' => $list,
             'imageToShow' => $this->getImagePath(),
         ]);
@@ -66,10 +69,13 @@ trait SectionTrait
             $imageName = $element->$imgField;
         }
 
+        $section = $this->getRouteSection();
+
         return view('admin.edit', [
             'title' => 'Редактирование элемента',
             'actionType' => 'edit',
-            'section' => $this->getRouteSection(),
+            'section' => $section,
+            'sectionName' => AdminController::SECTION_NAME[$section],
             'list' => $element->toArray(),
             'id' => $id,
             'imageToShow' => $this->getImagePath($imageName)

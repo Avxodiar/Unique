@@ -13,7 +13,7 @@
             </div>
 
             <div class="form-group">
-                <label for="inputIcon"Иконка</label>
+                <label for="inputIcon">Иконка</label>
                 <input type="text" id="inputIcon" name="icon" class="form-control form-control-lg" placeholder="Иконка" value="{{ old('icon', $list['icon']) }}" required>
                 @error('icon')
                 <div class="alert alert-danger">{{ $message }}</div>
