@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ServiceRequest;
 use App\Models\Service;
 use App\Support\SectionTrait;
-use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -18,6 +18,27 @@ class ServiceController extends Controller
         'name' => 'Название',
         'icon' => 'Иконка',
     ];
+
+    /**
+     * Создание страницы
+     * @param ServiceRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create(ServiceRequest $request)
+    {
+        return $this->createElement($request);
+    }
+
+    /**
+     * Изменение страницы
+     * @param ServiceRequest $request
+     * @param                 $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(ServiceRequest $request, $id)
+    {
+        return $this->updateElement($request, $id);
+    }
 
     /**
      * Получение записи по id из БД

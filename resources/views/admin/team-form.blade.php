@@ -43,8 +43,8 @@
     </div>
 
     <div class="form-group">
-        <label for="editor">Текст</label>
-        <textarea id="editor" name="text" class="form-control form-control-lg" rows="10" required>{{ old('text', $list['text']) }}</textarea>
+        <label for="textEditor">Текст</label>
+        <textarea id="textEditor" name="text" class="form-control form-control-lg" rows="10" required>{{ old('text', $list['text']) }}</textarea>
         @error('text')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror

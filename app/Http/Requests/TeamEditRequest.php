@@ -44,4 +44,15 @@ class TeamEditRequest extends FormRequest
             'mimes' => 'Изображение должно быть в одном из следующих форматов: :values.'
         ];
     }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation() {
+        $this->merge([
+            'text' => strip_tags($this->text),
+        ]);
+    }
 }

@@ -60,7 +60,11 @@ trait SectionTrait
             abort(404);
         }
 
-        $imgField = self::IMAGE_FIELD_NAME;
+        $imageName = '';
+        if (self::HAS_IMAGE) {
+            $imgField = self::IMAGE_FIELD_NAME;
+            $imageName = $element->$imgField;
+        }
 
         return view('admin.edit', [
             'title' => 'Редактирование элемента',
@@ -68,7 +72,7 @@ trait SectionTrait
             'section' => $this->getRouteSection(),
             'list' => $element->toArray(),
             'id' => $id,
-            'imageToShow' => $this->getImagePath($element->$imgField)
+            'imageToShow' => $this->getImagePath($imageName)
         ]);
     }
 

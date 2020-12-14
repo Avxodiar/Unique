@@ -10,7 +10,7 @@
     <link rel="icon" href="{{ asset('assets/favicon.png') }}" type="image/png">
     <!-- Bootstrap core CSS -->
     <link href="{{asset('assets/css/admin/bootstrap.min.css')}}" rel="stylesheet">
-
+    <link href="{{ asset('assets/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -46,6 +46,35 @@
             border:0;
             clip:rect(0 0 0 0);
             overflow:hidden;
+        }
+
+
+        .service_block {
+            text-align: center;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .service_icon {
+            border: 2px solid #df0031;
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            margin: 0px auto 25px;
+        }
+        .service_icon span {
+            background: transparent;
+            border-radius: 50%;
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+        .service_icon i {
+            color: #df0031;
+            font-size: 40px;
+            margin-top: 0;
+            position: relative;
+            top: 20px;
+            z-index: 20;
         }
 
     </style>

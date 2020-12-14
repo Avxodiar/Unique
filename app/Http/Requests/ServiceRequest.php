@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TeamAddRequest extends FormRequest
+class ServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,8 @@ class TeamAddRequest extends FormRequest
     {
         return [
             'name' => 'required|max:128',
-            'position' => 'required|max:160',
+            'icon' => 'required|max:128|regex:/(^[A-Za-z0-9-]+$)+/',
             'text' => 'required',
-            'images' => 'required|mimes:gif,jpg,jpeg,png,svg'
         ];
     }
 
@@ -41,7 +40,7 @@ class TeamAddRequest extends FormRequest
         return [
             'required' => 'Поле обязательно к заполнению.',
             'max' => 'Длина должна быть не более :max символов.',
-            'mimes' => 'Изображение должно быть в одном из следующих форматов: :values.'
+            'filter' => 'Поле может содержать только латинские символы, цифры, пробел, тире и запятые.'
         ];
     }
 
@@ -52,6 +51,7 @@ class TeamAddRequest extends FormRequest
      */
     protected function prepareForValidation() {
         $this->merge([
+            'icon' => strtolower(trim($this->icon)),
             'text' => strip_tags($this->text),
         ]);
     }
