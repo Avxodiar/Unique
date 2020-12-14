@@ -20,6 +20,11 @@ class IndexController extends Controller
     {
         $data = $request->all();
 
+        if(empty(env('MAIL_MANAGER'))) {
+            return redirect(URL::previous() . "#contact")
+                ->withErrors(['mail-status' => 'Ошибка конфигурации почтовой службы']);
+        }
+
         try {
             Mail::send('email.contact', ['data' => $data], function ($message) use ($data) {
                 $message->from($data['email'], $data['name'])
@@ -32,7 +37,7 @@ class IndexController extends Controller
         }
 
         return redirect(URL::previous() . "#contact")
-            ->with('mail-status', 'Email is send');
+            ->with('mail-status', 'Сообщение отправлено');
     }
 
     /**

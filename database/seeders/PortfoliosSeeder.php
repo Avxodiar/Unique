@@ -16,7 +16,7 @@ class PortfoliosSeeder extends Seeder
     {
         DB::table('portfolios')->insert([
             [
-                'name' => 'SMS MOBILE APP',
+                'name' => 'SMS Mobile App',
                 'image' => 'portfolio_pic1.jpg',
                 'filter' => 'APPLE IOS'
             ],
