@@ -10,74 +10,9 @@
     <link rel="icon" href="{{ asset('assets/favicon.png') }}" type="image/png">
     <!-- Bootstrap core CSS -->
     <link href="{{asset('assets/css/admin/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/css/admin/style.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-        .nav-tabs .nav-link.active {
-            color: #df0031;
-            font-weight: bold;
-        }
-        .min-w125 {
-            min-width: 125px;
-        }
-        .current-img {
-            border-color: #80bdff;
-            outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        .visually-hidden {
-            position:absolute;
-            width:1px;
-            height:1px;
-            margin:-1px;
-            border:0;
-            clip:rect(0 0 0 0);
-            overflow:hidden;
-        }
-
-
-        .service_block {
-            text-align: center;
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-        .service_icon {
-            border: 2px solid #df0031;
-            border-radius: 50%;
-            width: 90px;
-            height: 90px;
-            margin: 0px auto 25px;
-        }
-        .service_icon span {
-            background: transparent;
-            border-radius: 50%;
-            display: block;
-            height: 100%;
-            width: 100%;
-        }
-        .service_icon i {
-            color: #df0031;
-            font-size: 40px;
-            margin-top: 0;
-            position: relative;
-            top: 20px;
-            z-index: 20;
-        }
-
-    </style>
     <!-- Custom styles for this template -->
     <link href="{{asset('assets/css/admin/floating-labels.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/admin/sticky-footer-navbar.css')}}" rel="stylesheet">
@@ -127,62 +62,7 @@
 
 <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
 
-<script>
-    var deleteForm = '';
-    $( document ).ready(function() {
-        // fix bootstrap отображения имени файла в у стилизованного поля загрузки файла
-        $('.custom-file-input').on('change',function(evt){
-            // var fileName = $(this).val();
-            if(evt.target.files.length) {
-                let fileName = evt.target.files[0].name;
-                $(this).next('.custom-file-label').html(fileName);
-            }
-        });
-
-        // радиоселектор выбранного поля
-        // input text для указания имени файла
-        // input file для загрузки файла
-        $('#radio-text').on('click',function(){
-            $('#input-image').prop( "disabled", false ).focus();
-            $('#input-file').prop( "disabled", true );
-            $('img.img-thumbnail').addClass('current-img');
-        });
-        $('#input-image').focusout(function(){
-            $('img.img-thumbnail').removeClass('current-img');
-        });
-        $('#radio-file').on('click',function(){
-            $('#input-file').prop( "disabled", false ).focus();
-            $('#input-image').prop( "disabled", true );
-        });
-
-        // модальное окно подтверждения удаления элемента
-        $('#deleteModal').on('show.bs.modal', function (evt) {
-            deleteForm = $(evt.relatedTarget.parentElement);
-            //link = event.relatedTarget.href;
-            let button = $(evt.relatedTarget); // Button that triggered the modal
-            let id = button.data('id'); // Extract info from data-* attributes
-            let name = button.data('name'); // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            $(this).find('.modal-title span').text(id);
-            $(this).find('.modal-body p span').text(name);
-            $(this).trigger('focus');
-        });
-
-        // оправка формы для удаления элемента при подтверждении в модальном окне
-        $('#modalSubmit').on('click', function () {
-            deleteForm.submit();
-        });
-
-        // подключение визуального редактора на страницах редактирования/добавления для textarea c id=editor
-        let editor = document.querySelector('#editor');
-        if (editor && typeof CKEDITOR !== "undefined") {
-            CKEDITOR.replace( 'editor', {
-                customConfig: '/assets/js/ckeditor_config.js'
-            } );
-        }
-    });
-</script>
+<script src="{{ asset('assets/js/admin/script.js') }}"></script>
 
 </body>
 </html>
