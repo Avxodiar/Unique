@@ -70,7 +70,7 @@
             <!-- Portfolio Item -->
             <div class="portfolio-item portfolio-item-position portfolio-item{{(int) ($key/4)+1}}{{(int) ($key%4)+1}} one-four   {{ $portfolio['filters'] }} isotope-item">
                 <div class="portfolio_img">
-                    {!! Html::image('assets/img/' . $portfolio['image'], $portfolio['name']) !!}
+                    {!! Html::image('assets/img/portfolio/' . $portfolio['image'], $portfolio['name']) !!}
                 </div>
                 <div class="item_overlay">
                     <div class="item_info">
