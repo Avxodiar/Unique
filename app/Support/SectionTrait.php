@@ -43,7 +43,7 @@ trait SectionTrait
             'actionType' => 'add',
             'section' => $this->getRouteSection(),
             'list' => $list,
-            'noImage' => true,
+            'imageToShow' => $this->getImagePath(),
         ]);
     }
 
@@ -60,15 +60,7 @@ trait SectionTrait
             abort(404);
         }
 
-        // существует ли изображение для материала
-        $noImage = true;
-        if (self::HAS_IMAGE) {
-            $imgField = self::IMAGE_FIELD_NAME;
-            if (!empty($element->$imgField)) {
-                $dir = public_path() . '/assets/img/' . $this->getRouteSection();
-                $noImage = !file_exists($dir . '/' . $element->$imgField);
-            }
-        }
+        $imgField = self::IMAGE_FIELD_NAME;
 
         return view('admin.edit', [
             'title' => 'Редактирование элемента',
@@ -76,7 +68,7 @@ trait SectionTrait
             'section' => $this->getRouteSection(),
             'list' => $element->toArray(),
             'id' => $id,
-            'noImage' => $noImage,
+            'imageToShow' => $this->getImagePath($element->$imgField)
         ]);
     }
 
@@ -171,12 +163,12 @@ trait SectionTrait
     }
 
     /**
-     * Получение данных из модели SECTION_NAME
+     * Получение всех данных из модели SECTION_NAME
      * @return array
      */
     private function getDataList(): array
     {
-        return Pages::getModelData(self::SECTION_NAME);
+        return Pages::getModelData(self::SECTION_NAME, true);
     }
 
     /**
@@ -234,5 +226,29 @@ trait SectionTrait
         }
 
         return '';
+    }
+
+    /**
+     * Возвращает относительный путь изображения для формы редактирования
+     * если указанное в таблице не задано или не существует, то путь к дефолтному изображению
+     * @param string $image
+     * @return string
+     */
+    private function getImagePath(string $image = ''): string
+    {
+        // Изображение по умолчанию, если не задано
+        $imageToShow = 'no_image.png';
+        // путь к изображениям
+        $path = '/assets/img/';
+
+        if (self::HAS_IMAGE && !empty($image)) {
+            // загруженные изображения хранятся в подкаталогах секции
+            $img = $this->getRouteSection() . '/' . $image;
+            if (file_exists(public_path() . $path . $img)) {
+                $imageToShow = $img;
+            }
+        }
+
+        return $path . $imageToShow;
     }
 }

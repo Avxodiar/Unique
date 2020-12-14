@@ -12,10 +12,10 @@ class PageController extends Controller
 {
     use SectionTrait;
 
-    protected const SECTION_NAME = 'Page';
+    private const SECTION_NAME = 'Page';
 
-    protected const HAS_IMAGE = true;
-    protected const IMAGE_FIELD_NAME = 'images';
+    private const HAS_IMAGE = true;
+    private const IMAGE_FIELD_NAME = 'images';
 
     private const INDEX_FIELDS = [
         'alias' => 'Псевдоним',

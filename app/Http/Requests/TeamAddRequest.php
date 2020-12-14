@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PageAddRequest extends FormRequest
+class TeamAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class PageAddRequest extends FormRequest
     public function rules()
     {
         return [
-           'name' => 'required|max:128',
-           'alias' => 'required|unique:pages|max:32',
-           'content' => 'required',
-           'images' => 'required|mimes:gif,jpg,jpeg,png,svg'
+            'name' => 'required|max:128',
+            'position' => 'required|max:160',
+            'text' => 'required',
+            'images' => 'required|mimes:gif,jpg,jpeg,png,svg'
         ];
     }
 
@@ -40,7 +40,6 @@ class PageAddRequest extends FormRequest
     {
         return [
             'required' => 'Поле обязательно к заполнению.',
-            'unique' => 'Псевдоним должен быть уникальным. Запись с таким псевдонимом уже существует.',
             'max' => 'Длина должна быть не более :max символов.',
             'mimes' => 'Изображение должно быть в одном из следующих форматов: :values.'
         ];

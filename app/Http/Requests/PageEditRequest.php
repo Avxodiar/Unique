@@ -27,6 +27,7 @@ class PageEditRequest extends FormRequest
             'name' => 'required|max:128',
             'alias' => 'required|max:32',
             'content' => 'required',
+            'images' => 'mimes:gif,jpg,jpeg,png,svg'
         ];
     }
 
@@ -41,6 +42,7 @@ class PageEditRequest extends FormRequest
             'required' => 'Поле обязательно к заполнению.',
             'unique' => 'Псевдоним должен быть уникальным. Запись с таким псевдонимом уже существует.',
             'max' => 'Длина должна быть не более :max символов.',
+            'mimes' => 'Изображение должно быть в одном из следующих форматов: :values.'
         ];
     }
 }

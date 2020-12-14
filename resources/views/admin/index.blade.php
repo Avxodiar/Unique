@@ -81,7 +81,7 @@
 
                     <form action="{{route('delete-' . $section, $element['id'])}}" method="POST">
                         {{ csrf_field() }}
-                        <input type="hidden" name="_method" value="DELETE">
+                        {{ method_field('DELETE') }}
                         <input type="hidden" name="id" value="{{ $element['id'] }}">
                         <a class="btn btn-outline-danger" role="button"
                            href="{{route('delete-' . $section, $element['id'])}}"

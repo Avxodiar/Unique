@@ -49,48 +49,41 @@ class Pages
 
     /**
      * Получение данных для секций
+     * для секции 'People' по умолчанию выводится только PEOPLES_SHOW_COUNT записей
      * @param string $section - имя модели для получения данных
+     * @param bool   $full    - возвращать все записи, включая секцию 'People'
      * @return array
      */
-    public static function getModelData(string $section): array
+    public static function getModelData(string $section, bool $full = false): array
     {
         if (!isset(self::MODEL_FIELDS[$section])) {
             return [];
         }
 
         $cacheKey = self::getSectionKey($section);
+        $ttl = self::MODEL_DATA_CACHE_TIME;
 
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
+        $result = Cache::remember($cacheKey, $ttl, function () use ($section) {
+            $model = 'App\Models\\' . $section;
+            $fields = self::MODEL_FIELDS[$section];
+            array_unshift($fields, "id");
+
+            $res = $model::get($fields);
+
+            return self::toArray($res, $fields);
+        });
+
+        // для секции 'People' по умолчанию выводится только PEOPLES_SHOW_COUNT записей
+        if (!$full && $section === 'People') {
+            $result = array_slice($result, 0, self::PEOPLES_SHOW_COUNT);
         }
-
-        $model = 'App\Models\\' . $section;
-        $fields = self::MODEL_FIELDS[$section];
-        array_unshift($fields, "id");
-
-        switch ($section) {
-            case 'Page':
-            case 'Service':
-            case 'Portfolio':
-                $res = $model::get($fields);
-                break;
-            case 'People':
-                $res = $model::take(self::PEOPLES_SHOW_COUNT)->get($fields);
-                break;
-            default:
-                return [];
-        }
-
-        $result = self::toArray($res, $fields);
-
-        Cache::put($cacheKey, $result, self::MODEL_DATA_CACHE_TIME);
 
         return $result;
     }
 
     /**
      * Преобразование коллекций в ассоц.массив
-     * @param mixed  $res   - коллекции Illuminate\Database\Eloquent\Collection
+     * @param mixed $res    - коллекции Illuminate\Database\Eloquent\Collection
      * @param array $fields - список необходимых полей
      * @return array
      */
@@ -106,7 +99,6 @@ class Pages
         $res = ($res instanceof Model) ? collect([$res]) : $res;
 
         foreach ($res as $row) {
-
             $attr = $row->toArray();
 
             if (!empty($fields)) {
@@ -139,6 +131,6 @@ class Pages
      */
     private static function getSectionKey(string $section): string
     {
-        return  'getModelData_' . $section;
+        return 'getModelData_' . $section;
     }
 }

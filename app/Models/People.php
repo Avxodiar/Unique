@@ -10,4 +10,6 @@ class People extends Model
     use HasFactory;
 
     protected $table = 'peoples';
+
+    protected $fillable = ['name', 'position', 'images', 'text'];
 }

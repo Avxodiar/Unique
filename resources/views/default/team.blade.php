@@ -10,7 +10,7 @@
             <div class="team_area">
                 <div class="team_box wow fadeInDown delay-0{{($key+1)*3}}s">
                     <div class="team_box_shadow"><a href="javascript:void(0)"></a></div>
-                    {!! Html::image('assets/img/' . $people['images'], $people['name']) !!}
+                    {!! Html::image('assets/img/people/' . $people['images'], $people['name']) !!}
                     <ul>
                         <li><a href="javascript:void(0)" class="fa fa-twitter"></a></li>
                         <li><a href="javascript:void(0)" class="fa fa-facebook"></a></li>
@@ -20,7 +20,7 @@
                 </div>
                 <h3 class="wow fadeInDown delay-03s">{{ $people['name'] }}</h3>
                 <span class="wow fadeInDown delay-03s">{{ $people['position'] }}</span>
-                <p class="wow fadeInDown delay-03s">{{ $people['text'] }}</p>
+                <p class="wow fadeInDown delay-03s">{!! $people['text'] !!} </p>
             </div>
         @endforeach
         </div>
