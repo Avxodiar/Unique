@@ -1,61 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
-
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <img src="public/assets/img/logo.png" width="125" height="32" alt="Unique">
 </p>
 
-## About Laravel
+# Учебный проект "Unique"
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## О проекте
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Проект "Unique" это учебный проект на `Laravel v.8` по созданию одностраничного сайта "landing page" на базе готового шаблона от WebThemez.com. Обычно такие сайты не предусматриваю наличие администраторской части (/admin), но с целью изучения встроенного механизма авторизации (через фасад Auth) и более полной работы с моделями данных (создание, обновление, удалени) дополнительно создана админ.часть на библиотеке `Bootstrap v4.5`.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+В связи с тем, в что в Laravel 8, службы аутентификации предоставляеются пакетам Jetstream и Fortify, админ.часть не предусматривает управление пользователями, кроме как регистрации, аутентификации и завершении сеанса, функционал которых создан самостоятельно. Также не предусмотрено управление ролями и доступом к различным секциям панели управления и правами на операции, в связи чем любой авторизованный пользователь имеет полный доступ к любым действиям, что в реальном проекте конечно не допустимо.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Установка
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Клонируйте или создайте новый проект.
+```shell
+git clone git@github.com:Avxodiar/unique.git
+```
+или
 
-## Laravel Sponsors
+```shell
+composer create-project Avxodiar/unique
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 2. Создайте и настройте основную настройку проекта
 
-### Premium Partners
+Скопируйте файл `env.example` в `.env`
+```shell
+cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+Измените файл `.env` и установите настройки соединения с БД `database` для вашей системы.
 
-## Contributing
+Там же настройте почтовую службу, а затем задайте почтовый адрес и имя для получения сообщений из формы "Контакты" сайта.
+```
+MAIL_MANAGER=your-mail-manager@address
+MAIL_MANAGER_NAME=Dr.Strange
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Установите необходимые пакеты и зависимости 
 
-## Code of Conduct
+```shell
+composer install -vvv
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Создание таблиц в указанной в `.env` БД.
 
-## Security Vulnerabilities
+```shell
+php artisan migrate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Подготовьте к загрузке данные проекта, изменив их в файлах `PagesSeeder.php`, `PeoplesSeeder.php`, `PortfoliosSeeder.php`, `ServicesSeeder.php` в каталоге `/database/seeders`, или воспользуйтесь уже имеющимися в них тестовыми данными.
 
-## License
+Загрузите в созданные ранее таблицы тестовые данные.
+```shell
+php artisan db:seed
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Системные требования
+
+ - PHP >= 7.3
+ - PDO PHP Extension
+ - Tokenizer PHP Extension
+ - Ctype PHP Extension
+ - Mbstring PHP Extension
+ - JSON PHP Extension
+ - Fileinfo PHP extension
+ - BCMath PHP Extension
+ - OpenSSL PHP Extension
+ - XML PHP Extension 
