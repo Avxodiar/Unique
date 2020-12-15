@@ -29,18 +29,4 @@ class RegistrationRequest extends FormRequest
             'password' => 'required',
         ];
     }
-
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'required' => "Поле обязательно к заполнению",
-            'email' => "Поле должно содержать корректный email-адрес",
-            'name.min' => 'Поле слишком короткое. Должно быть не менее :min символов',
-        ];
-    }
 }

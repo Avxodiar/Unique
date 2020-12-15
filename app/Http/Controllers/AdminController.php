@@ -35,7 +35,7 @@ class AdminController extends Controller
         }
 
         return view('admin.login')
-            ->with('title', 'Авторизация');
+            ->with('title', __('admin.auth'));
     }
 
     /**
@@ -49,7 +49,7 @@ class AdminController extends Controller
         }
 
         return view('admin.registration')
-            ->with('title', 'Регистрация');
+            ->with('title', __('admin.register'));
     }
 
     /**
@@ -73,7 +73,7 @@ class AdminController extends Controller
         return redirect(route('login'))
             ->withInput( $request->only('email','remember') )
             ->withErrors([
-                'formError' => 'Email или пароль указаны не верно'
+                'formError' => __('auth.failed')
             ]);
     }
 
@@ -92,7 +92,7 @@ class AdminController extends Controller
 
         if ($this->userExist($data['email'])) {
             return redirect(route('registration'))
-                ->withErrors(['formError' => 'Пользователь с указанным email уже зарегистрирован']);
+                ->withErrors(['formError' => __('auth.user_exists')]);
         }
 
         $user = User::create($data);
@@ -105,7 +105,7 @@ class AdminController extends Controller
         }
 
         return redirect(route('registration'))
-            ->withErrors(['formError' => 'Ошибка создания пользователя']);
+            ->withErrors(['formError' => __('auth.user_create_failed')]);
     }
 
     /**

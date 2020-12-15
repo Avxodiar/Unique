@@ -31,20 +31,6 @@ class ServiceRequest extends FormRequest
     }
 
     /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'required' => 'Поле обязательно к заполнению.',
-            'max' => 'Длина должна быть не более :max символов.',
-            'filter' => 'Поле может содержать только латинские символы, цифры, пробел, тире и запятые.'
-        ];
-    }
-
-    /**
      * Prepare the data for validation.
      *
      * @return void

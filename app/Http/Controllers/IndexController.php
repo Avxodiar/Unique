@@ -22,7 +22,7 @@ class IndexController extends Controller
 
         if(empty(env('MAIL_MANAGER'))) {
             return redirect(URL::previous() . "#contact")
-                ->withErrors(['mail-status' => 'Ошибка конфигурации почтовой службы']);
+                ->withErrors(['mail-status' => __('index.no_mail_manager')]);
         }
 
         try {
@@ -37,7 +37,7 @@ class IndexController extends Controller
         }
 
         return redirect(URL::previous() . "#contact")
-            ->with('mail-status', 'Сообщение отправлено');
+            ->with('mail-status', __('index.mail_send'));
     }
 
     /**

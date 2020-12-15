@@ -30,19 +30,4 @@ class PageEditRequest extends FormRequest
             'images' => 'mimes:gif,jpg,jpeg,png,svg'
         ];
     }
-
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'required' => 'Поле обязательно к заполнению.',
-            'unique' => 'Псевдоним должен быть уникальным. Запись с таким псевдонимом уже существует.',
-            'max' => 'Длина должна быть не более :max символов.',
-            'mimes' => 'Изображение должно быть в одном из следующих форматов: :values.'
-        ];
-    }
 }
