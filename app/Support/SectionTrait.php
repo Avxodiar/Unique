@@ -41,7 +41,7 @@ trait SectionTrait
         $section = $this->getRouteSection();
 
         return view('admin.edit', [
-            'title' => 'Добавление элемента',
+            'title' => __('admin.add_element'),
             'actionType' => 'add',
             'section' => $section,
             'sectionName' => AdminController::SECTION_NAME[$section],
@@ -72,7 +72,7 @@ trait SectionTrait
         $section = $this->getRouteSection();
 
         return view('admin.edit', [
-            'title' => 'Редактирование элемента',
+            'title' => __('admin.edit_element'),
             'actionType' => 'edit',
             'section' => $section,
             'sectionName' => AdminController::SECTION_NAME[$section],
@@ -93,7 +93,7 @@ trait SectionTrait
         $element = $this->getElement($id);
 
         if (!$element) {
-            return $this->redirectBackEror('Редактируемая запись не найдена');
+            return $this->redirectBackEror(__('admin.error.edit_element_not_found'));
         }
 
         // @todo добавить сесурити
@@ -112,10 +112,10 @@ trait SectionTrait
         if ($element->save()) {
             Pages::forgetCache(self::SECTION_NAME);
 
-            return redirect()->back()->with('status', 'Изменения сохранены');
+            return redirect()->back()->with('status', __('admin.change_saved'));
         }
 
-        return $this->redirectBackEror('Ошибка сохранения данных');
+        return $this->redirectBackEror(__('admin.error.data_save'));
     }
 
     /**
@@ -142,10 +142,10 @@ trait SectionTrait
             return redirect()->back()
                 ->with('id', $res->id)
                 ->with('section', $this->getRouteSection())
-                ->with('status', 'Запись успешно добавлена');
+                ->with('status', __('admin.element_added'));
         }
 
-        return $this->redirectBackEror('Ошибка добавления данных');
+        return $this->redirectBackEror(__('admin.error.data_add'));
     }
 
     /**
@@ -158,18 +158,18 @@ trait SectionTrait
         $element = $this->getElement($id);
 
         if (!$element) {
-            return $this->redirectBackEror('Удаляемая запись не найдена');
+            return $this->redirectBackEror(__('admin.error.data_add'));
         }
 
         $res = $element->delete();
 
         if (!$res) {
-            return $this->redirectBackEror('Ошибка удаления записи');
+            return $this->redirectBackEror(__('admin.error.date_delete'));
         }
 
         Pages::forgetCache(self::SECTION_NAME);
 
-        return redirect()->back()->with('status', 'Запись удалена');
+        return redirect()->back()->with('status', __('admin.element_deleted'));
     }
 
     /**
