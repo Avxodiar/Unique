@@ -10,12 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     // список названий секций доступных для изменений
-    public const SECTION_NAME = [
-        'page' => 'Страницы',
-        'service' => 'Услуги',
-        'portfolio' => 'Портфолио',
-        'people' => 'Команда'
-    ];
+    public static $sectionName;
+
     // список активных/неактивных секций в панели управления
     public const ACTION_ACTIVE = [
         'page' => '',
@@ -23,6 +19,29 @@ class AdminController extends Controller
         'portfolio' => '',
         'people' => ''
     ];
+
+    /**
+     * Загрузка языковых значений/локализация
+     */
+    public static function boot(): void
+    {
+        self::$sectionName = [
+            'page' => __('admin.section.page'),
+            'service' => __('admin.section.service'),
+            'portfolio' => __('admin.section.portfolio'),
+            'people' => __('admin.section.people')
+        ];
+    }
+
+    /**
+     * Возвращает имя секции
+     * @param string $section - код секции
+     * @return string
+     */
+    public static function getSectionName(string $section): string
+    {
+        return self::$sectionName[$section] ?? '';
+    }
 
     /**
      * Страница авторизации

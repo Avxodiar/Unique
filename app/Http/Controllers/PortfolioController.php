@@ -17,10 +17,18 @@ class PortfolioController extends Controller
     private const HAS_IMAGE = true;
     private const IMAGE_FIELD_NAME = 'image';
 
-    private const INDEX_FIELDS = [
-        'name' => 'Название',
-        'filter' => 'Фильтры',
-    ];
+    public static $indexFields;
+
+    /**
+     * Загрузка языковых значений/локализация
+     */
+    public static function boot(): void
+    {
+        self::$indexFields = [
+            'name' => __('admin.section_fields.name'),
+            'filter' => __('admin.section_fields.filter')
+        ];
+    }
 
     /**
      * Создание страницы

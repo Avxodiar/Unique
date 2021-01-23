@@ -17,7 +17,17 @@ return [
         'page' => 'Страницы',
         'service' => 'Услуги',
         'portfolio' => 'Портфолио',
-        'people' => 'Команда'
+        'people' => 'Команда',
+        'clients' => 'Клиенты',
+        'contact' => 'Контакты'
+    ],
+    'section_fields' => [
+        'alias' => 'Псевдоним',
+        'name' => 'Название',
+        'icon' => 'Иконка',
+        'filter' => 'Фильтры',
+        'username' => 'Имя',
+        'position' => 'Должность'
     ],
     'auth' => 'Авторизация',
     'register' => 'Регистрация',

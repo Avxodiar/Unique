@@ -14,10 +14,18 @@ class ServiceController extends Controller
 
     private const HAS_IMAGE = false;
 
-    private const INDEX_FIELDS = [
-        'name' => 'Название',
-        'icon' => 'Иконка',
-    ];
+    public static $indexFields;
+
+    /**
+     * Загрузка языковых значений/локализация
+     */
+    public static function boot(): void
+    {
+        self::$indexFields = [
+            'name' => __('admin.section_fields.name'),
+            'icon' => __('admin.section_fields.alias')
+        ];
+    }
 
     /**
      * Создание страницы

@@ -21,9 +21,9 @@ trait SectionTrait
 
         return view('admin.index', [
             'section' => $section,
-            'sectionName' => AdminController::SECTION_NAME[$section],
+            'sectionName' => AdminController::getSectionName($section),
             'sectionActive' => $sectionActive,
-            'fields' => self::INDEX_FIELDS,
+            'fields' => self::$indexFields,
             'list' => $this->getDataList(),
         ]);
     }
@@ -44,7 +44,7 @@ trait SectionTrait
             'title' => __('admin.add_element'),
             'actionType' => 'add',
             'section' => $section,
-            'sectionName' => AdminController::SECTION_NAME[$section],
+            'sectionName' => AdminController::getSectionName($section),
             'list' => $list,
             'imageToShow' => $this->getImagePath(),
         ]);
@@ -75,7 +75,7 @@ trait SectionTrait
             'title' => __('admin.edit_element'),
             'actionType' => 'edit',
             'section' => $section,
-            'sectionName' => AdminController::SECTION_NAME[$section],
+            'sectionName' => AdminController::getSectionName($section),
             'list' => $element->toArray(),
             'id' => $id,
             'imageToShow' => $this->getImagePath($imageName)

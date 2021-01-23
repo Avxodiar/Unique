@@ -2,19 +2,14 @@
 
 namespace App\Support;
 
+use App\Models\Page;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Pages
 {
     // статические страницы отображаемые всегда
-    private const STATIC_PAGES = [
-        'services' => 'Услуги',
-        'portfolio' => 'Портфолио',
-        'clients' => 'Клиенты',
-        'team' => 'Команда',
-        'contact' => 'Контакты',
-    ];
+    private static $staticPages;
 
     // список необходимых полей моделей данных
     public const MODEL_FIELDS = [
@@ -31,6 +26,20 @@ class Pages
     private const MODEL_DATA_CACHE_TIME = 3600;
 
     /**
+     * Загрузка языковых значений/локализация
+     */
+    public static function boot(): void
+    {
+        self::$staticPages = [
+            'services' => __('admin.section.service'),
+            'portfolio' => __('admin.section.portfolio'),
+            'clients' => __('admin.section.clients'),
+            'team' => __('admin.section.people'),
+            'contact' => __('admin.section.contact')
+        ];
+    }
+
+    /**
      * Формирования списка меню из списков динамичных и статичных страниц
      * @return array
      */
@@ -44,7 +53,7 @@ class Pages
             $pageMenu[$page['alias']] = $page['name'];
         }
 
-        return array_merge($pageMenu, self::STATIC_PAGES);
+        return array_merge($pageMenu, self::$staticPages);
     }
 
     /**

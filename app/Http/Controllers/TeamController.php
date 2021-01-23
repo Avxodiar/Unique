@@ -16,10 +16,18 @@ class TeamController extends Controller
     private const HAS_IMAGE = true;
     private const IMAGE_FIELD_NAME = 'images';
 
-    private const INDEX_FIELDS = [
-        'name' => 'Имя',
-        'position' => 'Должность',
-    ];
+    public static $indexFields;
+
+    /**
+     * Загрузка языковых значений/локализация
+     */
+    public static function boot(): void
+    {
+        self::$indexFields = [
+            'name' => __('admin.section_fields.username'),
+            'position' => __('admin.section_fields.position')
+        ];
+    }
 
     /**
      * Создание страницы

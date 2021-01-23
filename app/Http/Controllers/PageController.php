@@ -17,10 +17,18 @@ class PageController extends Controller
     private const HAS_IMAGE = true;
     private const IMAGE_FIELD_NAME = 'images';
 
-    private const INDEX_FIELDS = [
-        'alias' => 'Псевдоним',
-        'name' => 'Название',
-    ];
+    public static $indexFields;
+
+    /**
+     * Загрузка языковых значений/локализация
+     */
+    public static function boot(): void
+    {
+        self::$indexFields = [
+            'alias' => __('admin.section_fields.alias'),
+            'name' => __('admin.section_fields.name')
+        ];
+    }
 
     /**
      * Показ выбранной страницы в публичной части
